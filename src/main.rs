@@ -1,21 +1,14 @@
-use std::{collections::BTreeSet, str::FromStr, sync::Arc, time::Duration};
+use std::{str::FromStr, sync::Arc, time::Duration};
 
 use communication::client::{Communication, CyclerOutput};
 use indicatif::{MultiProgress, ProgressBar};
-use rand::{
-    seq::{IteratorRandom, SliceRandom},
-    thread_rng, Rng,
-};
-use tokio::{
-    spawn,
-    sync::{Mutex, Semaphore},
-    time::sleep,
-};
+use rand::{seq::SliceRandom, thread_rng};
+use tokio::{spawn, sync::Semaphore, time::sleep};
 
 #[tokio::main(flavor = "multi_thread")]
 async fn main() {
     console_subscriber::init();
-    let client = Communication::new(Some("ws://10.1.24.30:1337".to_string()), true);
+    let client = Communication::new(Some("ws://10.1.24.23:1337".to_string()), true);
     let fields = loop {
         sleep(Duration::from_millis(100)).await;
         if let Some(fields) = client.get_output_fields().await {
